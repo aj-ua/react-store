@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 const Product = props => {
-    const { id, title, price, description, image, wishlist } = props.product;
+    const { id, title, price, description, image, wishlist } = props.product
+    const wishCountHandler = props.wishCountHandler
     const [active, setActive] = useState(false)
 
     useEffect(() => {
@@ -11,35 +12,33 @@ const Product = props => {
     }, [wishlist])
 
     const handleWishlist = () => {
-        console.log('active0', active)
         const newActive = !active
-        setActive(newActive)
-        console.log('active1', active)
+        setActive((newActive))
 
         let wishlistArr = localStorage.getItem('wishlist') ? JSON.parse(localStorage.getItem('wishlist')) : []
-        console.log('wishlistArr', wishlistArr)
 
         if (newActive) {
 
-            console.log('is active')
-
             if (wishlistArr.length) {
-                wishlistArr = wishlistArr.includes(id) ? wishlistArr : [...wishlistArr, id]
+                if (!wishlistArr.includes(id)) {
+                    wishlistArr = [...wishlistArr, id];
+                    wishCountHandler()
+                }
+                // wishlistArr = wishlistArr.includes(id) ? wishlistArr : [...wishlistArr, id]
             } else {
                 wishlistArr.push(id)
+                wishCountHandler()
             }
             localStorage.setItem('wishlist', JSON.stringify(wishlistArr))
 
         } else {
 
-            console.log('not active')
-
             if (wishlistArr.length) {
                 const wishlistArrUpdated = wishlistArr.filter(function (item) {
                     return item !== id
-                });
-                console.log('wishlistArrUpdated', wishlistArrUpdated);
+                })
                 localStorage.setItem('wishlist', JSON.stringify(wishlistArrUpdated))
+                wishCountHandler(-1)
             }
 
         }

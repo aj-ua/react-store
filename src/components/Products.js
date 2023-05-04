@@ -2,27 +2,30 @@ import React, { useEffect, useState } from 'react'
 import products from '../data.json';
 import Product from './Product'
 
-const Products = () => {
-    // const [wishlist, setWishlist] = useState([])
+const Products = ({ wishCountHandler }) => {
     const [productsList, setProductsList] = useState([])
 
     useEffect(() => {
+        let count = 0
         let wishlist = []
-        wishlist = JSON.parse(localStorage.getItem('wishlist'))
-        console.log('loaded wishlist', wishlist)
-
-        // if (wishlist) {
-        //     setWishlist(wishlist)
-        // }
+        if (localStorage.getItem('wishlist')) {
+            wishlist = JSON.parse(localStorage.getItem('wishlist'))
+        }
 
         let productsUpdated
         productsUpdated = products.map((product) => {
-            product.wishlist = wishlist.includes(product.id) ? true : false
+            if (wishlist.includes(product.id)) {
+                product.wishlist = true
+                count++
+
+            } else {
+                product.wishlist = false
+            }
             return product
         })
         setProductsList(productsUpdated)
-        console.log('productsUpdated', productsUpdated)
-    }, []);
+        wishCountHandler(count)
+    }, [wishCountHandler]);
 
     // // 1: Fetch from local file
     // const [products, setProducts] = useState([]);
@@ -71,7 +74,7 @@ const Products = () => {
                     <div className='row'>
                         {productsList.map(product => (
                             <div className='col-md-6 col-lg-4 col-xl-3 mb-4' key={product.id}>
-                                <Product product={product} />
+                                <Product product={product} wishCountHandler={wishCountHandler} />
                             </div>
                         ))}
                     </div>
