@@ -9,6 +9,7 @@ import Products from './components/Products';
 
 function App() {
     const [wishCount, setWishCount] = useState(0)
+    const [cartCount, setCartCount] = useState(0)
     const wishCountHandler = useCallback((amount = 1) => {
         if (amount === 1) {
             console.log('wishCountHandler +++')
@@ -18,10 +19,19 @@ function App() {
         setWishCount(prev => prev + amount)
     }, [])
 
+    const cartCountHandler = useCallback((amount = 1) => {
+        if (amount === 1) {
+            console.log('cartCountHandler +++')
+        } else if (amount === -1) {
+            console.log('cartCountHandler ---')
+        }
+        setCartCount(prev => prev + amount)
+    }, [])
+
     return (
         <div className="App">
-            <Header wishCount={wishCount} />
-            <Products wishCountHandler={wishCountHandler} />
+            <Header wishCount={wishCount} cartCount={cartCount} />
+            <Products wishCountHandler={wishCountHandler} cartCountHandler={cartCountHandler} />
             <Footer />
         </div>
     );
