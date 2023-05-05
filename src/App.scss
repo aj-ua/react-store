@@ -45,13 +45,13 @@
 .navbar {
   &__actions {
     i {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 700;
       color: var(--bs-red);
 
       &:before {
         color: #fff;
-        font-size: 40px;
+        font-size: 32px;
       }
     }
   }

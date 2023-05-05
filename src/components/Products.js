@@ -87,14 +87,12 @@ const Products = ({ wishCountHandler, cartCountHandler }) => {
     return (
         <main>
             {productsList.length > 0 && (
-                <div className="container my-5">
-                    <div className='row'>
-                        {productsList.map(product => (
-                            <div className='col-md-6 col-lg-4 col-xl-3 mb-4' key={product.id}>
-                                <Product product={product} wishCountHandler={wishCountHandler} cartCountHandler={cartCountHandler} />
-                            </div>
-                        ))}
-                    </div>
+                <div className='row'>
+                    {productsList.map(product => (
+                        <div className='col-md-6 col-lg-4 col-xl-3 mb-4' key={product.id}>
+                            <Product product={product} wishCountHandler={wishCountHandler} cartCountHandler={cartCountHandler} />
+                        </div>
+                    ))}
                 </div>
             )}
         </main>

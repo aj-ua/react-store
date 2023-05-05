@@ -1,11 +1,14 @@
 import { useState, useCallback } from 'react'
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.bundle';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import './App.scss';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Products from './components/Products';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.bundle'
+import 'bootstrap-icons/font/bootstrap-icons.css'
+import './App.scss'
+import Header from './components/Header'
+import Wishlist from './pages/Wishlist'
+import Cart from './pages/Cart'
+import Footer from './components/Footer'
+import Products from './components/Products'
 
 function App() {
     const [wishCount, setWishCount] = useState(0)
@@ -29,11 +32,19 @@ function App() {
     }, [])
 
     return (
-        <div className="App">
-            <Header wishCount={wishCount} cartCount={cartCount} />
-            <Products wishCountHandler={wishCountHandler} cartCountHandler={cartCountHandler} />
-            <Footer />
-        </div>
+        <BrowserRouter>
+            <div className="App">
+                <Header wishCount={wishCount} cartCount={cartCount} />
+                <main className="container my-5">
+                    <Routes>
+                        <Route path="/" element={<Products wishCountHandler={wishCountHandler} cartCountHandler={cartCountHandler} />} />
+                        <Route path="/wishlist" element={<Wishlist />} />
+                        <Route path="/cart" element={<Cart />} />
+                    </Routes>
+                </main>
+                <Footer />
+            </div>
+        </BrowserRouter>
     );
 }
 
