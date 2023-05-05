@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const Header = ({ wishCount, cartCount }) => {
     return (
@@ -8,13 +8,13 @@ const Header = ({ wishCount, cartCount }) => {
                 <h1>Store</h1>
                 <ul className="navbar-nav gap-2 fs-5">
                     <li className="nav-item">
-                        <Link to="/" className="nav-link">Home</Link>
+                        <NavLink to="/" className="nav-link">Home</NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link to="/wishlist" className="nav-link">Wishlist</Link>
+                        <NavLink to="/wishlist" className="nav-link">Wishlist</NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link to="/cart" className="nav-link">Cart</Link>
+                        <NavLink to="/cart" className="nav-link">Cart</NavLink>
                     </li>
                 </ul>
                 <div className='navbar__actions d-flex gap-4'>

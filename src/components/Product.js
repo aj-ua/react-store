@@ -21,7 +21,8 @@ const Product = props => {
         }
     }, [wishlist, cart])
 
-    const handleWishlist = () => {
+    const handleWishlist = (e) => {
+        e.preventDefault()
         const newActive = !active
         setActive((newActive))
 
