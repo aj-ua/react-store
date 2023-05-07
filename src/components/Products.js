@@ -1,7 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Product from './Product'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { GET_PRODUCTS } from '../actions/types'
 
-const Products = ({ products, wishlist, cart, handleWishlist, handleCart }) => {
+const Products = (props) => {
+    useEffect(() => {
+        console.log('props', props);
+        props.getProducts()
+    }, [])
+
+    const { products, wishlist, cart, handleWishlist, handleCart } = props
+
     return (
         <main>
             {products.length > 0 && (
@@ -20,4 +30,17 @@ const Products = ({ products, wishlist, cart, handleWishlist, handleCart }) => {
     )
 }
 
-export default Products
+Products.propTypes = {
+    products: PropTypes.array.isRequired,
+    getProducts: PropTypes.func.isRequired
+}
+
+const mapStateToProps = (state) => ({
+    products: state.products.products
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    getProducts: () => dispatch({ type: GET_PRODUCTS })
+})
+
+export default connect()(Products)
