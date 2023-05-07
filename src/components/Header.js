@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-const Header = ({ wishCount, cartCount }) => {
+const Header = ({ wishlist, cartCount }) => {
     return (
         <header className="navbar navbar-dark navbar-expand-lg bg-dark text-white">
             <div className="container d-flex justify-content-between">
@@ -18,7 +18,7 @@ const Header = ({ wishCount, cartCount }) => {
                     </li>
                 </ul>
                 <div className='navbar__actions d-flex gap-4'>
-                    <i className="bi bi-heart">{wishCount > 0 ? wishCount : ''}</i>
+                    <i className="bi bi-heart">{wishlist.length > 0 ? wishlist.length : ''}</i>
                     <i className="bi bi-cart">{cartCount > 0 ? cartCount : ''}</i>
                 </div>
             </div>

@@ -1,61 +1,63 @@
 import React, { useEffect, useState } from 'react'
 import Modal from './Modal'
 
-const Product = props => {
-    const { id, title, price, description, image, wishlist, cart } = props.product
-    const wishCountHandler = props.wishCountHandler
-    const [active, setActive] = useState(false)
+const Product = ({ product, wishlist, wishCountHandler, handleWishlist, cartCountHandler }) => {
+    const { id, title, price, description, image, inWishlist, inCart } = product
 
-    const cartCountHandler = props.cartCountHandler
-    const [inCart, setInCart] = useState(false)
-
+    const [addedWishlist, setAddedWishlist] = useState(false)
+    const [addedCart, setAddedCart] = useState(false)
     const [openModal, setOpenModal] = useState(false)
 
     useEffect(() => {
-        if (wishlist) {
-            setActive(wishlist)
+        if (inWishlist) {
+            setAddedWishlist(inWishlist)
         }
 
-        if (cart) {
-            setInCart(cart)
+        if (inCart) {
+            setAddedCart(inCart)
         }
-    }, [wishlist, cart])
+    }, [inWishlist, inCart])
 
-    const handleWishlist = (e) => {
+    const updateWishlist = (e) => {
         e.preventDefault()
-        const newActive = !active
-        setActive((newActive))
+        setAddedWishlist((prevState => !prevState))
 
-        let wishlistArr = localStorage.getItem('wishlist') ? JSON.parse(localStorage.getItem('wishlist')) : []
+        // let wishlistArr = localStorage.getItem('wishlist') ? JSON.parse(localStorage.getItem('wishlist')) : []
 
-        if (newActive) {
+        if (!addedWishlist) {
 
-            if (wishlistArr.length) {
-                if (!wishlistArr.includes(id)) {
-                    wishlistArr = [...wishlistArr, id];
-                    wishCountHandler()
+            if (wishlist.length) {
+                if (!wishlist.includes(id)) {
+                    wishlist = [...wishlist, id];
+                    // wishCountHandler()
                 }
             } else {
-                wishlistArr.push(id)
-                wishCountHandler()
+                wishlist.push(id)
+                // wishCountHandler()
             }
-            localStorage.setItem('wishlist', JSON.stringify(wishlistArr))
+            // localStorage.setItem('wishlist', JSON.stringify(wishlist))
 
         } else {
 
-            if (wishlistArr.length) {
-                const wishlistArrUpdated = wishlistArr.filter(function (item) {
+            if (wishlist) {
+                wishlist = wishlist.filter(function (item) {
                     return item !== id
                 })
-                localStorage.setItem('wishlist', JSON.stringify(wishlistArrUpdated))
-                wishCountHandler(-1)
+                // localStorage.setItem('wishlist', JSON.stringify(wishlist))
+                // wishCountHandler(-1)
             }
 
         }
+
+        // setWishlist(prev => wishlist)
+        // setWishCount(prev => wishlist.length)
+        // localStorage.setItem('wishlist', JSON.stringify(wishlist))
+        handleWishlist(wishlist)
     }
 
-    const handleCart = () => {
-        setInCart(true)
+    const handleCart = (e) => {
+        e.preventDefault()
+        setAddedCart(true)
 
         let cartArr = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []
 
@@ -82,17 +84,17 @@ const Product = props => {
         <article className="card h-100" data-id={id}>
             <div className='position-relative p-5'>
                 <img src={image} className="card-img-top" alt="" style={{ aspectRatio: "1 / 1" }} />
-                <a href="/#" className='position-absolute text-danger fs-1 p-3 z-10 top-0 end-0' onClick={handleWishlist}>
-                    {active ? <i className="bi bi-heart-fill"></i> : <i className="bi bi-heart"></i>}
+                <a href="/#" className='position-absolute text-danger fs-1 p-3 z-10 top-0 end-0' onClick={updateWishlist}>
+                    {addedWishlist ? <i className="bi bi-heart-fill"></i> : <i className="bi bi-heart"></i>}
                 </a>
             </div>
             <div className="card-body d-flex flex-column">
                 <h4 className="card-title">{'(#' + id + ') ' + title}</h4>
                 <p className="card-text" style={{ height: '100px', overflow: 'hidden' }}>{description}</p>
                 <h3 className='mt-auto'><strong>${price}</strong></h3>
-                {inCart ? <a href="/#" className="btn btn-lg btn-success mt-2 disabled"><i className="bi bi-check"></i> In cart</a> : <a href="/#" className="btn btn-lg btn-success mt-2" onClick={toggleModal}><i className="bi bi-cart"></i> Add to cart</a>}
+                {addedCart ? <a href="/#" className="btn btn-lg btn-secondary mt-2 disabled"><i className="bi bi-check"></i> In cart</a> : <a href="/#" className="btn btn-lg btn-success mt-2" onClick={toggleModal}><i className="bi bi-cart"></i> Add to cart</a>}
                 <Modal title={'Add Product #' + id} closeButton={false} openModal={openModal} actions={[
-                    { id: 1, className: "btn-success", text: "Yes", onClick: () => handleCart() },
+                    { id: 1, className: "btn-success", text: "Yes", onClick: (e) => handleCart(e) },
                     { id: 2, className: "btn-danger", text: "No", onClick: () => toggleModal() },
                 ]}>
                     Add <strong>{title}</strong> to cart?
