@@ -42,24 +42,14 @@ function App() {
 
                 if (data.length > 0) {
                     productsUpdated = data.map((product) => {
-                        if (wishlist.includes(product.id)) {
-                            product.inWishlist = true
-                        } else {
-                            product.inWishlist = false
-                        }
-
-                        if (cart.includes(product.id)) {
-                            product.inCart = true
-
-                        } else {
-                            product.inCart = false
-                        }
+                        product.inWishlist = wishlist.includes(product.id)
+                        product.inCart = cart.includes(product.id)
 
                         return product
                     })
+                    setProducts(productsUpdated)
                     handleWishlist(wishlist)
                     handleCart(cart)
-                    setProducts(productsUpdated)
                 }
 
             });
@@ -79,15 +69,6 @@ function App() {
         localStorage.setItem('cart', JSON.stringify(cart))
     }, [])
 
-    // const cartCountHandler = useCallback((amount = 1) => {
-    //     if (amount === 1) {
-    //         console.log('cartCountHandler +1')
-    //     } else if (amount === -1) {
-    //         console.log('cartCountHandler -1')
-    //     }
-    //     setCartCount(prev => prev + amount)
-    // }, [])
-
     return (
         <BrowserRouter>
             <div className="App">
@@ -104,7 +85,7 @@ function App() {
                         />
                         <Route
                             path="/cart"
-                            element={<Cart />}
+                            element={<Cart products={products} wishlist={wishlist} cart={cart} handleWishlist={handleWishlist} handleCart={handleCart} />}
                         />
                         <Route
                             path="*"

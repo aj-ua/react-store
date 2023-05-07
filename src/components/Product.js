@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import Modal from './Modal'
+import { useLocation } from 'react-router-dom';
 
 const Product = ({ product, wishlist, cart, handleWishlist, handleCart }) => {
     const { id, title, price, description, image, inWishlist, inCart } = product
 
     const [addedWishlist, setAddedWishlist] = useState(false)
     const [addedCart, setAddedCart] = useState(false)
-    const [openModal, setOpenModal] = useState(false)
+    const [isOpen, setisOpen] = useState(false)
+
+    const pageSlug = useLocation().pathname;
 
     useEffect(() => {
         if (inWishlist) {
@@ -47,24 +50,40 @@ const Product = ({ product, wishlist, cart, handleWishlist, handleCart }) => {
 
     const updateCart = (e) => {
         e.preventDefault()
-        setAddedCart(true)
+        setAddedCart(prevState => !prevState)
 
-        if (cart.length) {
-            if (!cart.includes(id)) {
-                cart = [...cart, id];
+        console.log('cart', cart);
+
+        if (!addedCart) {
+
+            if (cart.length) {
+                if (!cart.includes(id)) {
+                    cart = [...cart, id];
+                }
+            } else {
+                cart.push(id)
             }
+
+            alert('Product #' + id + ' added to card')
+
         } else {
-            cart.push(id)
+
+            if (cart) {
+                cart = cart.filter(function (item) {
+                    return item !== id
+                })
+            }
+
         }
+
         handleCart(cart)
-
-        console.log('Product #' + id + ' added to card')
-        toggleModal()
     }
 
-    const toggleModal = () => {
-        setOpenModal(prevToggle => !prevToggle)
+    const toggleModal = (e) => {
+        e.preventDefault()
+        setisOpen(prevToggle => !prevToggle)
     }
+
 
     return (
         <article className="card h-100" data-id={id}>
@@ -77,14 +96,36 @@ const Product = ({ product, wishlist, cart, handleWishlist, handleCart }) => {
             <div className="card-body d-flex flex-column">
                 <h4 className="card-title">{'(#' + id + ') ' + title}</h4>
                 <p className="card-text" style={{ height: '100px', overflow: 'hidden' }}>{description}</p>
-                <h3 className='mt-auto'><strong>${price}</strong></h3>
-                {addedCart ? <a href="/#" className="btn btn-lg btn-secondary mt-2 disabled"><i className="bi bi-check"></i> In cart</a> : <a href="/#" className="btn btn-lg btn-success mt-2" onClick={toggleModal}><i className="bi bi-cart"></i> Add to cart</a>}
-                <Modal title={'Add Product #' + id} closeButton={false} openModal={openModal} actions={[
-                    { id: 1, className: "btn-success", text: "Yes", onClick: (e) => updateCart(e) },
-                    { id: 2, className: "btn-danger", text: "No", onClick: () => toggleModal() },
-                ]}>
-                    Add <strong>{title}</strong> to cart?
-                </Modal>
+                <h3 className='mt-auto mb-3'><strong>${price}</strong></h3>
+
+                {pageSlug.includes('cart') ? (
+                    <>
+                        <a href="/#" className="btn btn-lg btn-danger" onClick={(e) => toggleModal(e)}>Remove from cart</a>
+                        <Modal title={'Add Product #' + id} closeButton={false} isOpen={isOpen} actions={[
+                            { id: 1, className: "btn-success", text: "Yes remove", onClick: (e) => updateCart(e) },
+                            { id: 2, className: "btn-danger", text: "No" },
+                        ]}>
+                            Remove <strong>{title}</strong> from cart?
+                        </Modal>
+                    </>
+                ) : (
+                    addedCart ? (
+                        <a href="/#" className="btn btn-lg btn-secondary disabled"><i className="bi bi-check"></i> In cart</a>
+                    ) : (
+                        <>
+                            <a href="/#" className="btn btn-lg btn-success" onClick={(e) => toggleModal(e)}><i className="bi bi-cart"></i> Add to cart</a>
+                            <Modal title={'Add Product #' + id} closeButton={false} isOpen={isOpen} actions={[
+                                { id: 1, className: "btn-success", text: "Yes add", onClick: (e) => updateCart(e) },
+                                { id: 2, className: "btn-danger", text: "No" },
+                            ]}>
+                                Add <strong>{title}</strong> to cart?
+                            </Modal>
+                        </>
+                    )
+                )
+
+                }
+
             </div >
         </article >
     )

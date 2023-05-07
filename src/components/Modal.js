@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Button from './Button'
 
-const Modal = ({ title = 'Modal', text, closeButton = true, openModal = false, actions, children }) => {
+const Modal = ({ title = 'Modal', text, closeButton = true, isOpen = false, actions, children }) => {
     const [toggle, setToggle] = useState(false)
 
     useEffect(() => {
-        setToggle(openModal)
-    }, [openModal]);
+        setToggle(isOpen)
+    }, [isOpen]);
 
     const toggleModal = () => {
         setToggle(prevToggle => !prevToggle)
@@ -25,9 +25,10 @@ const Modal = ({ title = 'Modal', text, closeButton = true, openModal = false, a
                             </div>
                             <div className="modal-body text-left">{children}</div>
                             <div className="modal-footer">
-                                {actions.map(action =>
-                                    <Button key={action.id} className={action.className} text={action.text} onClick={action.onClick} />
-                                )}
+                                {actions.map(action => {
+                                    const clickFunction = action.onClick ?? toggleModal
+                                    return < Button key={action.id} className={action.className} text={action.text} onClick={clickFunction} />
+                                })}
                             </div>
                         </div>
                     </div>
