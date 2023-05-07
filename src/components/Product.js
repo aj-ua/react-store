@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Modal from './Modal'
 
-const Product = ({ product, wishlist, wishCountHandler, handleWishlist, cartCountHandler }) => {
+const Product = ({ product, wishlist, cart, handleWishlist, handleCart }) => {
     const { id, title, price, description, image, inWishlist, inCart } = product
 
     const [addedWishlist, setAddedWishlist] = useState(false)
@@ -22,20 +22,15 @@ const Product = ({ product, wishlist, wishCountHandler, handleWishlist, cartCoun
         e.preventDefault()
         setAddedWishlist((prevState => !prevState))
 
-        // let wishlistArr = localStorage.getItem('wishlist') ? JSON.parse(localStorage.getItem('wishlist')) : []
-
         if (!addedWishlist) {
 
             if (wishlist.length) {
                 if (!wishlist.includes(id)) {
                     wishlist = [...wishlist, id];
-                    // wishCountHandler()
                 }
             } else {
                 wishlist.push(id)
-                // wishCountHandler()
             }
-            // localStorage.setItem('wishlist', JSON.stringify(wishlist))
 
         } else {
 
@@ -43,34 +38,25 @@ const Product = ({ product, wishlist, wishCountHandler, handleWishlist, cartCoun
                 wishlist = wishlist.filter(function (item) {
                     return item !== id
                 })
-                // localStorage.setItem('wishlist', JSON.stringify(wishlist))
-                // wishCountHandler(-1)
             }
 
         }
 
-        // setWishlist(prev => wishlist)
-        // setWishCount(prev => wishlist.length)
-        // localStorage.setItem('wishlist', JSON.stringify(wishlist))
         handleWishlist(wishlist)
     }
 
-    const handleCart = (e) => {
+    const updateCart = (e) => {
         e.preventDefault()
         setAddedCart(true)
 
-        let cartArr = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []
-
-        if (cartArr.length) {
-            if (!cartArr.includes(id)) {
-                cartArr = [...cartArr, id];
-                cartCountHandler()
+        if (cart.length) {
+            if (!cart.includes(id)) {
+                cart = [...cart, id];
             }
         } else {
-            cartArr.push(id)
-            cartCountHandler()
+            cart.push(id)
         }
-        localStorage.setItem('cart', JSON.stringify(cartArr))
+        handleCart(cart)
 
         console.log('Product #' + id + ' added to card')
         toggleModal()
@@ -94,7 +80,7 @@ const Product = ({ product, wishlist, wishCountHandler, handleWishlist, cartCoun
                 <h3 className='mt-auto'><strong>${price}</strong></h3>
                 {addedCart ? <a href="/#" className="btn btn-lg btn-secondary mt-2 disabled"><i className="bi bi-check"></i> In cart</a> : <a href="/#" className="btn btn-lg btn-success mt-2" onClick={toggleModal}><i className="bi bi-cart"></i> Add to cart</a>}
                 <Modal title={'Add Product #' + id} closeButton={false} openModal={openModal} actions={[
-                    { id: 1, className: "btn-success", text: "Yes", onClick: (e) => handleCart(e) },
+                    { id: 1, className: "btn-success", text: "Yes", onClick: (e) => updateCart(e) },
                     { id: 2, className: "btn-danger", text: "No", onClick: () => toggleModal() },
                 ]}>
                     Add <strong>{title}</strong> to cart?

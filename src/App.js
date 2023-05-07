@@ -14,11 +14,10 @@ import NotFound from './pages/NotFound'
 function App() {
     const [products, setProducts] = useState([])
     const [wishlist, setWishlist] = useState([])
-    const [cartCount, setCartCount] = useState(0)
+    const [cart, setCart] = useState([])
 
     const getData = () => {
         let wishlist = []
-        let countCart = 0
         let cart = []
         let productsUpdated
 
@@ -51,7 +50,6 @@ function App() {
 
                         if (cart.includes(product.id)) {
                             product.inCart = true
-                            countCart++
 
                         } else {
                             product.inCart = false
@@ -60,7 +58,7 @@ function App() {
                         return product
                     })
                     handleWishlist(wishlist)
-                    cartCountHandler(countCart)
+                    handleCart(cart)
                     setProducts(productsUpdated)
                 }
 
@@ -76,28 +74,33 @@ function App() {
         localStorage.setItem('wishlist', JSON.stringify(wishlist))
     }, [])
 
-    const cartCountHandler = useCallback((amount = 1) => {
-        if (amount === 1) {
-            console.log('cartCountHandler +1')
-        } else if (amount === -1) {
-            console.log('cartCountHandler -1')
-        }
-        setCartCount(prev => prev + amount)
+    const handleCart = useCallback((cart) => {
+        setCart((prev) => cart)
+        localStorage.setItem('cart', JSON.stringify(cart))
     }, [])
+
+    // const cartCountHandler = useCallback((amount = 1) => {
+    //     if (amount === 1) {
+    //         console.log('cartCountHandler +1')
+    //     } else if (amount === -1) {
+    //         console.log('cartCountHandler -1')
+    //     }
+    //     setCartCount(prev => prev + amount)
+    // }, [])
 
     return (
         <BrowserRouter>
             <div className="App">
-                <Header wishlist={wishlist} cartCount={cartCount} />
+                <Header wishlist={wishlist} cart={cart} />
                 <main className="main container my-5">
                     <Routes>
                         <Route
                             path="/"
-                            element={<Products products={products} wishlist={wishlist} handleWishlist={handleWishlist} cartCountHandler={cartCountHandler} />}
+                            element={<Products products={products} wishlist={wishlist} cart={cart} handleWishlist={handleWishlist} handleCart={handleCart} />}
                         />
                         <Route
                             path="/wishlist"
-                            element={<Wishlist products={products} wishlist={wishlist} handleWishlist={handleWishlist} cartCountHandler={cartCountHandler} />}
+                            element={<Wishlist products={products} wishlist={wishlist} handleWishlist={handleWishlist} handleCart={handleCart} />}
                         />
                         <Route
                             path="/cart"
