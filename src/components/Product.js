@@ -138,6 +138,7 @@ const Product = (props) => {
 Product.propTypes = {
     product: PropTypes.object.isRequired,
     cart: PropTypes.array.isRequired,
+    handleCart: PropTypes.func.isRequired,
     wishlist: PropTypes.array.isRequired,
     handleWishlist: PropTypes.func.isRequired
 }
@@ -147,4 +148,4 @@ const mapStateToProps = (state) => ({
     wishlist: state.product.wishlist
 })
 
-export default connect(mapStateToProps, { handleWishlist })(Product)
+export default connect(mapStateToProps, { handleCart, handleWishlist })(Product)
