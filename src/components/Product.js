@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Modal from './Modal'
 import { useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { handleCart, handleWishlist } from '../actions/productActions'
 
-const Product = ({ product, wishlist, cart, handleWishlist, handleCart }) => {
-    const { id, title, price, description, image, inWishlist, inCart } = product
+const Product = (props) => {
+    let { wishlist, handleWishlist, cart, handleCart } = props;
+    const { id, title, price, description, image, inWishlist, inCart } = props.product
 
     const [addedWishlist, setAddedWishlist] = useState(false)
     const [addedCart, setAddedCart] = useState(false)
@@ -131,4 +135,16 @@ const Product = ({ product, wishlist, cart, handleWishlist, handleCart }) => {
     )
 }
 
-export default Product
+Product.propTypes = {
+    product: PropTypes.object.isRequired,
+    cart: PropTypes.array.isRequired,
+    wishlist: PropTypes.array.isRequired,
+    handleWishlist: PropTypes.func.isRequired
+}
+
+const mapStateToProps = (state) => ({
+    cart: state.product.cart,
+    wishlist: state.product.wishlist
+})
+
+export default connect(mapStateToProps, { handleWishlist })(Product)

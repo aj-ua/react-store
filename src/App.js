@@ -1,15 +1,20 @@
 import { useState, useEffect, useCallback } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap/dist/js/bootstrap.bundle'
-import 'bootstrap-icons/font/bootstrap-icons.css'
-import './App.scss'
+
+import { Provider } from 'react-redux'
+import store from './store'
+
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Products from './components/Products'
 import Wishlist from './pages/Wishlist'
 import Cart from './pages/Cart'
 import NotFound from './pages/NotFound'
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.bundle'
+import 'bootstrap-icons/font/bootstrap-icons.css'
+import './App.scss'
 
 function App() {
     const [products, setProducts] = useState([])
@@ -70,32 +75,34 @@ function App() {
     }, [])
 
     return (
-        <BrowserRouter>
-            <div className="App">
-                <Header wishlist={wishlist} cart={cart} />
-                <main className="main container my-5">
-                    <Routes>
-                        <Route
-                            path="/"
-                            element={<Products products={products} wishlist={wishlist} cart={cart} handleWishlist={handleWishlist} handleCart={handleCart} />}
-                        />
-                        <Route
-                            path="/wishlist"
-                            element={<Wishlist products={products} wishlist={wishlist} handleWishlist={handleWishlist} handleCart={handleCart} />}
-                        />
-                        <Route
-                            path="/cart"
-                            element={<Cart products={products} wishlist={wishlist} cart={cart} handleWishlist={handleWishlist} handleCart={handleCart} />}
-                        />
-                        <Route
-                            path="*"
-                            element={<NotFound />}
-                        />
-                    </Routes>
-                </main>
-                <Footer />
-            </div>
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <div className="App">
+                    <Header wishlist={wishlist} cart={cart} />
+                    <main className="main container my-5">
+                        <Routes>
+                            <Route
+                                path="/"
+                                element={<Products wishlist={wishlist} cart={cart} handleWishlist={handleWishlist} handleCart={handleCart} />}
+                            />
+                            <Route
+                                path="/wishlist"
+                                element={<Wishlist products={products} wishlist={wishlist} handleWishlist={handleWishlist} handleCart={handleCart} />}
+                            />
+                            <Route
+                                path="/cart"
+                                element={<Cart products={products} wishlist={wishlist} cart={cart} handleWishlist={handleWishlist} handleCart={handleCart} />}
+                            />
+                            <Route
+                                path="*"
+                                element={<NotFound />}
+                            />
+                        </Routes>
+                    </main>
+                    <Footer />
+                </div>
+            </BrowserRouter>
+        </Provider>
     );
 }
 
