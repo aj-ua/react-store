@@ -1,7 +1,9 @@
 import React from 'react'
 import Product from '../components/Product'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-export default function Cart({ products, wishlist, cart, handleWishlist, handleCart }) {
+const Cart = ({ products, cart }) => {
     return (
         <>
             <h1>Cart</h1>
@@ -10,7 +12,7 @@ export default function Cart({ products, wishlist, cart, handleWishlist, handleC
                     return (
                         cart.includes(product.id) ?
                             (<div className='col-md-6 col-lg-4 col-xl-3 mb-4' key={product.id}>
-                                <Product product={product} wishlist={wishlist} cart={cart} handleWishlist={handleWishlist} handleCart={handleCart} />
+                                <Product product={product} />
                             </div>) : null
                     )
                 })}
@@ -18,3 +20,15 @@ export default function Cart({ products, wishlist, cart, handleWishlist, handleC
         </>
     )
 }
+
+Cart.propTypes = {
+    products: PropTypes.array.isRequired,
+    cart: PropTypes.array.isRequired,
+}
+
+const mapStateToProps = (state) => ({
+    products: state.product.products,
+    cart: state.product.cart
+})
+
+export default connect(mapStateToProps, null)(Cart)

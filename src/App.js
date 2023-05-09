@@ -1,4 +1,3 @@
-import { useState, useEffect, useCallback } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
@@ -17,81 +16,25 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import './App.scss'
 
 function App() {
-    const [products, setProducts] = useState([])
-    const [wishlist, setWishlist] = useState([])
-    const [cart, setCart] = useState([])
-
-    const getData = () => {
-        let wishlist = []
-        let cart = []
-        let productsUpdated
-
-        if (localStorage.getItem('wishlist')) {
-            wishlist = JSON.parse(localStorage.getItem('wishlist'))
-        }
-
-        if (localStorage.getItem('cart')) {
-            cart = JSON.parse(localStorage.getItem('cart'))
-        }
-
-        fetch('data.json' // from /public folder
-            , {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            }
-        )
-            .then((response) => response.json())
-            .then((data) => {
-
-                if (data.length > 0) {
-                    productsUpdated = data.map((product) => {
-                        product.inWishlist = wishlist.includes(product.id)
-                        product.inCart = cart.includes(product.id)
-
-                        return product
-                    })
-                    setProducts(productsUpdated)
-                    handleWishlist(wishlist)
-                    handleCart(cart)
-                }
-
-            });
-    }
-    useEffect(() => {
-        // executed only once
-        getData()
-    }, [])
-
-    const handleWishlist = useCallback((wishlist) => {
-        setWishlist((prev) => wishlist)
-        localStorage.setItem('wishlist', JSON.stringify(wishlist))
-    }, [])
-
-    const handleCart = useCallback((cart) => {
-        setCart((prev) => cart)
-        localStorage.setItem('cart', JSON.stringify(cart))
-    }, [])
 
     return (
         <Provider store={store}>
             <BrowserRouter>
                 <div className="App">
-                    <Header wishlist={wishlist} cart={cart} />
+                    <Header />
                     <main className="main container my-5">
                         <Routes>
                             <Route
                                 path="/"
-                                element={<Products wishlist={wishlist} cart={cart} handleWishlist={handleWishlist} handleCart={handleCart} />}
+                                element={<Products />}
                             />
                             <Route
                                 path="/wishlist"
-                                element={<Wishlist products={products} wishlist={wishlist} handleWishlist={handleWishlist} handleCart={handleCart} />}
+                                element={<Wishlist />}
                             />
                             <Route
                                 path="/cart"
-                                element={<Cart products={products} wishlist={wishlist} cart={cart} handleWishlist={handleWishlist} handleCart={handleCart} />}
+                                element={<Cart />}
                             />
                             <Route
                                 path="*"
