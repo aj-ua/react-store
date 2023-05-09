@@ -7,9 +7,9 @@ const Products = (props) => {
     const { products } = props
     return (
         <main>
-            {products.length > 0 && (
-                <>
-                    <h1>Products</h1>
+            <>
+                <h1>Products</h1>
+                {products.length > 0 && (
                     <div className='row'>
                         {products.map(product => (
                             <div className='col-md-6 col-lg-4 col-xl-3 mb-4' key={product.id}>
@@ -17,8 +17,8 @@ const Products = (props) => {
                             </div>
                         ))}
                     </div>
-                </>
-            )}
+                )}
+            </>
         </main>
     )
 }

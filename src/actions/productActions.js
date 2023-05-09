@@ -7,11 +7,11 @@ export const getData = () => async dispatch => {
     let products = []
 
     if (localStorage.getItem('wishlist')) {
-        wishlist = JSON.parse(localStorage.getItem('wishlist'))
+        wishlist = await JSON.parse(localStorage.getItem('wishlist'))
     }
 
     if (localStorage.getItem('cart')) {
-        cart = JSON.parse(localStorage.getItem('cart'))
+        cart = await JSON.parse(localStorage.getItem('cart'))
     }
 
     products = await axios.get('data.json')

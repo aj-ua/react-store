@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getData } from '../actions/productActions'
 
-const Header = ({ wishlist, cart }) => {
+const Header = ({ wishlist, cart, getData }) => {
     useEffect(() => {
         // executed only once
         getData()
