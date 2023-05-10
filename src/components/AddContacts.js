@@ -1,119 +1,80 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { handleContacts } from '../actions/productActions'
 import classnames from 'classnames'
+import { Formik, Form, Field, ErrorMessage } from "formik"
+import * as Yup from "yup"
+
+const signInSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required").min(2, "Name is too short - should be 2 chars min"),
+    email: Yup.string().email().required("Email is required"),
+    phone: Yup.string()
+        .required("Phone is required")
+        .min(4, "Phone is too short - should be 4 chars min")
+})
 
 const AddContacts = () => {
-    const intialValues = { name: "", email: "", phone: "" }
-
-    const [formValues, setFormValues] = useState(intialValues)
-    const [formErrors, setFormErrors] = useState({})
-    const [isSubmitting, setIsSubmitting] = useState(false)
-
-    const submit = () => {
-        console.log(formValues)
-
-        handleContacts(formValues)
-    };
-
-    //input change handler
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        setFormValues({ ...formValues, [name]: value })
-    }
-
-    //form submission handler
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        setFormErrors(validate(formValues))
-        setIsSubmitting(true)
-    };
-
-    //form validation handler
-    const validate = (values) => {
-        let errors = {}
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i
-
-        if (!values.name) {
-            errors.name = "Cannot be blank"
-        } else if (values.name.length < 2) {
-            errors.name = "Name must be at least 2 characters"
-        }
-
-        if (!values.email) {
-            errors.email = "Cannot be blank"
-        } else if (!regex.test(values.email)) {
-            errors.email = "Invalid email format"
-        }
-
-        if (!values.phone) {
-            errors.phone = "Cannot be blank"
-        } else if (values.phone.length < 4) {
-            errors.phone = "Phone must be more than 4 characters"
-        }
-
-        return errors
-    };
-
-    useEffect(() => {
-        if (Object.keys(formErrors).length === 0 && isSubmitting) {
-            submit()
-        }
-    }, [formErrors])
-
     return (
-        <>
-            <div className="card text-start">
-                <div className="card-header fs-4">Add Contacts</div>
-                <div className="card-body">
-                    {Object.keys(formErrors).length === 0 && isSubmitting && (
-                        <span className="success-msg">Form submitted successfully</span>
-                    )}
-                    <form onSubmit={handleSubmit} noValidate>
-                        <div className="form-group mb-2">
-                            <label>Name</label>
-                            <input
-                                type="text"
-                                name="name"
-                                className={classnames("form-control form-control-lg", { 'is-invalid': formErrors.name })}
-                                value={formValues.name}
-                                onChange={handleChange}
-                            />
-                            {formErrors.name && (
-                                <span className="invalid-feedback">{formErrors.name}</span>
-                            )}
+        <Formik
+            initialValues={{ name: "", email: "", phone: "" }}
+            validationSchema={signInSchema}
+            onSubmit={(values, actions) => {
+                console.log(values);
+                handleContacts(values)
+                actions.resetForm()
+            }}
+        >
+            {(formik) => {
+                const { errors, touched } = formik
+                return (
+                    <>
+                        <div className="card text-start">
+                            <div className="card-header fs-4">Add Contact Info</div>
+                            <div className="card-body">
+                                <Form>
+                                    <div className="form-group mb-2">
+                                        <label>Name</label>
+                                        <Field
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            className={classnames("form-control form-control-lg", { 'is-invalid': errors.name && touched.name })}
+                                        />
+                                        <ErrorMessage name="name" component="span" className="invalid-feedback" />
+                                    </div>
+                                    <div className="form-group mb-2">
+                                        <label>Email</label>
+                                        <Field
+                                            type="email"
+                                            name="email"
+                                            id="email"
+                                            className={classnames("form-control form-control-lg", { 'is-invalid': errors.email && touched.email })}
+                                        />
+                                        <ErrorMessage name="email" component="span" className="invalid-feedback" />
+                                    </div>
+                                    <div className="form-group mb-3">
+                                        <label>Phone</label>
+                                        <Field
+                                            type="text"
+                                            name="phone"
+                                            id="phone"
+                                            className={classnames("form-control form-control-lg", { 'is-invalid': errors.phone && touched.phone })}
+                                        />
+                                        <ErrorMessage name="phone" component="span" className="invalid-feedback" />
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-lg btn-primary w-100"
+                                    >
+                                        Add Contacts
+                                    </button>
+                                </Form>
+                            </div>
                         </div>
-                        <div className="form-group mb-2">
-                            <label>Email</label>
-                            <input
-                                type="text"
-                                name="email"
-                                className={classnames("form-control form-control-lg", { 'is-invalid': formErrors.name })}
-                                value={formValues.email}
-                                onChange={handleChange}
-                            />
-                            {formErrors.email && (
-                                <span className="invalid-feedback">{formErrors.email}</span>
-                            )}
-                        </div>
-                        <div className="form-group mb-3">
-                            <label>Phone</label>
-                            <input
-                                type="text"
-                                name="phone"
-                                className={classnames("form-control form-control-lg", { 'is-invalid': formErrors.name })}
-                                value={formValues.phone}
-                                onChange={handleChange}
-                            />
-                            {formErrors.phone && (
-                                <span className="invalid-feedback">{formErrors.phone}</span>
-                            )}
-                        </div>
-                        <button className="btn btn-lg btn-primary w-100" type="submit">Add Contacts</button>
-                    </form>
-                </div>
-            </div>
-            <hr className='my-4' />
-        </>
+                        <hr className='my-4' />
+                    </>
+                )
+            }}
+        </Formik>
     )
 }
 
