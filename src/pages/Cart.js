@@ -1,5 +1,6 @@
 import React from 'react'
 import Product from '../components/Product'
+import AddContacts from '../components/AddContacts'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
@@ -7,6 +8,7 @@ const Cart = ({ products, cart }) => {
     return (
         <>
             <h1>Cart</h1>
+            <AddContacts />
             <div className='row'>
                 {products.map(product => {
                     return (

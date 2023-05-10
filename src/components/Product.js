@@ -27,7 +27,7 @@ const Product = (props) => {
 
     const updateWishlist = (e) => {
         e.preventDefault()
-        setAddedWishlist((prevState => !prevState))
+        setAddedWishlist(prevState => !prevState)
 
         if (!addedWishlist) {
 

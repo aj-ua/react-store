@@ -1,4 +1,4 @@
-import { GET_DATA, HANDLE_CART, HANDLE_WISHLIST } from './types'
+import { GET_DATA, HANDLE_CART, HANDLE_WISHLIST, HANDLE_CONTACTS } from './types'
 import axios from 'axios'
 
 export const getData = () => async dispatch => {
@@ -55,5 +55,12 @@ export const handleWishlist = (wishlist) => {
     return {
         type: HANDLE_WISHLIST,
         payload: wishlist
+    }
+}
+
+export const handleContacts = (contacts) => {
+    return {
+        type: HANDLE_CONTACTS,
+        payload: contacts
     }
 }

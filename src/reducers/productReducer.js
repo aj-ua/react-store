@@ -1,9 +1,10 @@
-import { GET_DATA, HANDLE_CART, HANDLE_WISHLIST } from '../actions/types'
+import { GET_DATA, HANDLE_CART, HANDLE_WISHLIST, HANDLE_CONTACTS } from '../actions/types'
 
 const initialState = {
     products: [],
     cart: [],
-    wishlist: []
+    wishlist: [],
+    contacts: {}
 }
 
 export default function (state = initialState, action) {
@@ -26,6 +27,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 wishlist: action.payload
+            }
+
+        case HANDLE_CONTACTS:
+            return {
+                ...state,
+                contacts: action.payload
             }
 
         default:
