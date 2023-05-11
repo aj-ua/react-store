@@ -1,15 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getData } from '../actions/productActions'
 
-const Header = ({ wishlist, cart, getData }) => {
-    useEffect(() => {
-        // executed only once
-        getData()
-    }, [])
-
+const Header = ({ wishlist, cart }) => {
     return (
         <header className="navbar navbar-dark navbar-expand-lg bg-dark text-white">
             <div className="container d-flex justify-content-between">
@@ -37,7 +31,6 @@ const Header = ({ wishlist, cart, getData }) => {
 Header.propTypes = {
     cart: PropTypes.array.isRequired,
     wishlist: PropTypes.array.isRequired,
-    getData: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -46,4 +39,4 @@ const mapStateToProps = (state) => ({
     wishlist: state.product.wishlist
 })
 
-export default connect(mapStateToProps, { getData })(Header)
+export default connect(mapStateToProps, null)(Header)

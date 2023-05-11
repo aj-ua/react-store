@@ -1,4 +1,5 @@
-import { GET_DATA, HANDLE_CART, HANDLE_WISHLIST, HANDLE_CONTACTS } from './types'
+// import { GET_DATA, HANDLE_CART, HANDLE_WISHLIST, ADD_CONTACTS, HANDLE_CHECKOUT } from './types'
+import * as types from './types'
 import axios from 'axios'
 
 export const getData = () => async dispatch => {
@@ -33,7 +34,7 @@ export const getData = () => async dispatch => {
         });
 
     dispatch({
-        type: GET_DATA,
+        type: types.GET_DATA,
         payload: {
             products: products,
             cart: cart,
@@ -45,7 +46,7 @@ export const getData = () => async dispatch => {
 export const handleCart = (cart) => {
     localStorage.setItem('cart', JSON.stringify(cart))
     return {
-        type: HANDLE_CART,
+        type: types.HANDLE_CART,
         payload: cart
     }
 }
@@ -53,14 +54,24 @@ export const handleCart = (cart) => {
 export const handleWishlist = (wishlist) => {
     localStorage.setItem('wishlist', JSON.stringify(wishlist))
     return {
-        type: HANDLE_WISHLIST,
+        type: types.HANDLE_WISHLIST,
         payload: wishlist
     }
 }
 
-export const handleContacts = (contacts) => {
+export const addContacts = (contacts) => {
+    console.log('ADD_CONTACTS', contacts);
     return {
-        type: HANDLE_CONTACTS,
+        type: types.ADD_CONTACTS,
         payload: contacts
+    }
+}
+
+export const handleCheckout = (data) => {
+    console.log('action HANDLE_CHECKOUT', data);
+
+    return {
+        type: types.HANDLE_CHECKOUT,
+        payload: data
     }
 }

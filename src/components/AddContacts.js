@@ -1,5 +1,7 @@
 import React from 'react'
-import { handleContacts } from '../actions/productActions'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { addContacts } from '../actions'
 import classnames from 'classnames'
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
@@ -18,8 +20,8 @@ const AddContacts = () => {
             initialValues={{ name: "", email: "", phone: "" }}
             validationSchema={signInSchema}
             onSubmit={(values, actions) => {
-                console.log(values);
-                handleContacts(values)
+                console.log(values)
+                addContacts(values)
                 actions.resetForm()
             }}
         >
@@ -70,7 +72,6 @@ const AddContacts = () => {
                                 </Form>
                             </div>
                         </div>
-                        <hr className='my-4' />
                     </>
                 )
             }}
@@ -78,4 +79,7 @@ const AddContacts = () => {
     )
 }
 
-export default AddContacts
+const mapStateToProps = (state) => ({
+    contacts: state.product.contacts
+})
+export default connect(mapStateToProps, null)(AddContacts)

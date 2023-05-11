@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
 import store from './store'
+import { getData } from './actions'
 
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -16,6 +17,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import './App.scss'
 
 function App() {
+    // load all products, wishlist and cart values
+    store.dispatch(getData())
 
     return (
         <Provider store={store}>

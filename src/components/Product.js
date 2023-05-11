@@ -3,7 +3,7 @@ import Modal from './Modal'
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { handleCart, handleWishlist } from '../actions/productActions'
+import { handleCart, handleWishlist } from '../actions'
 
 const Product = (props) => {
     let { wishlist, handleWishlist, cart, handleCart } = props;
@@ -11,9 +11,10 @@ const Product = (props) => {
 
     const [addedWishlist, setAddedWishlist] = useState(false)
     const [addedCart, setAddedCart] = useState(false)
-    const [isOpen, setisOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
     const pageSlug = useLocation().pathname;
+    const isPageCart = pageSlug.includes('cart')
 
     useEffect(() => {
         if (inWishlist) {
@@ -85,7 +86,7 @@ const Product = (props) => {
 
     const toggleModal = (e) => {
         e.preventDefault()
-        setisOpen(prevToggle => !prevToggle)
+        setIsOpen(prevToggle => !prevToggle)
     }
 
 
@@ -99,10 +100,10 @@ const Product = (props) => {
             </div>
             <div className="card-body d-flex flex-column">
                 <h4 className="card-title">{'(#' + id + ') ' + title}</h4>
-                <p className="card-text" style={{ height: '100px', overflow: 'hidden' }}>{description}</p>
+                {isPageCart ? null : <p className="card-text" style={{ height: '100px', overflow: 'hidden' }}>{description}</p>}
                 <h3 className='mt-auto mb-3'><strong>${price}</strong></h3>
 
-                {pageSlug.includes('cart') ? (
+                {isPageCart ? (
                     <>
                         <a href="/#" className="btn btn-lg btn-danger" onClick={(e) => toggleModal(e)}>Remove from cart</a>
                         <Modal title={'Add Product #' + id} closeButton={false} isOpen={isOpen} actions={[
