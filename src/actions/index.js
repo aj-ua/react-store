@@ -1,6 +1,5 @@
 // import { GET_DATA, HANDLE_CART, HANDLE_WISHLIST, ADD_CONTACTS, HANDLE_CHECKOUT } from './types'
 import * as types from './types'
-import axios from 'axios'
 
 export const getData = () => async dispatch => {
     let wishlist = []
@@ -15,8 +14,14 @@ export const getData = () => async dispatch => {
         cart = await JSON.parse(localStorage.getItem('cart'))
     }
 
-    products = await axios.get('data.json')
-        .then(res => res.data)
+    products = await fetch('data.json' // from /public folder
+        , {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    )
+        .then((response) => response.json())
         .then((data) => {
             let productsUpdated = []
 
