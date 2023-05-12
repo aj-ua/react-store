@@ -37,12 +37,12 @@ const Product = (props) => {
                     wishlist = [...wishlist, id];
                 }
             } else {
-                wishlist.push(id)
+                wishlist = [...wishlist, id]
             }
 
         } else {
 
-            if (wishlist) {
+            if (wishlist.length) {
                 wishlist = wishlist.filter(function (item) {
                     return item !== id
                 })
@@ -57,8 +57,6 @@ const Product = (props) => {
         e.preventDefault()
         setAddedCart(prevState => !prevState)
 
-        console.log('cart', cart);
-
         if (!addedCart) {
 
             if (cart.length) {
@@ -66,7 +64,7 @@ const Product = (props) => {
                     cart = [...cart, id];
                 }
             } else {
-                cart.push(id)
+                cart = [...cart, id];
             }
 
             alert('Product #' + id + ' added to card')
@@ -105,11 +103,18 @@ const Product = (props) => {
 
                 {isPageCart ? (
                     <>
-                        <a href="/#" className="btn btn-lg btn-danger" onClick={(e) => toggleModal(e)}>Remove from cart</a>
-                        <Modal title={'Add Product #' + id} closeButton={false} isOpen={isOpen} actions={[
-                            { id: 1, className: "btn-success", text: "Yes remove", onClick: (e) => updateCart(e) },
-                            { id: 2, className: "btn-danger", text: "No" },
-                        ]}>
+                        <Modal
+                            title={'Add Product #' + id}
+                            modalButton={{
+                                className: "btn-primary btn-lg",
+                                text: "Remove from cart",
+                            }}
+                            closeButton={false}
+                            isOpen={isOpen}
+                            actions={[
+                                { id: 1, className: "btn-success", text: "Yes remove", onClick: (e) => updateCart(e) },
+                                { id: 2, className: "btn-danger", text: "No" },
+                            ]}>
                             Remove <strong>{title}</strong> from cart?
                         </Modal>
                     </>
@@ -118,11 +123,18 @@ const Product = (props) => {
                         <a href="/#" className="btn btn-lg btn-secondary disabled"><i className="bi bi-check"></i> In cart</a>
                     ) : (
                         <>
-                            <a href="/#" className="btn btn-lg btn-success" onClick={(e) => toggleModal(e)}><i className="bi bi-cart"></i> Add to cart</a>
-                            <Modal title={'Add Product #' + id} closeButton={false} isOpen={isOpen} actions={[
-                                { id: 1, className: "btn-success", text: "Yes add", onClick: (e) => updateCart(e) },
-                                { id: 2, className: "btn-danger", text: "No" },
-                            ]}>
+                            <Modal
+                                title={'Add Product #' + id}
+                                modalButton={{
+                                    className: "btn-success btn-lg",
+                                    text: "Add to cart",
+                                }}
+                                closeButton={false}
+                                isOpen={isOpen}
+                                actions={[
+                                    { id: 1, className: "btn-success", text: "Yes add", onClick: (e) => updateCart(e) },
+                                    { id: 2, className: "btn-danger", text: "No" },
+                                ]}>
                                 Add <strong>{title}</strong> to cart?
                             </Modal>
                         </>

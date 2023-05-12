@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Button from './Button'
 
-const Modal = ({ title = 'Modal', text, closeButton = true, isOpen = false, actions, children }) => {
+const Modal = ({ title = 'Modal', text, closeButton = true, isOpen = false, modalButton, actions, children }) => {
     const [toggle, setToggle] = useState(false)
 
     useEffect(() => {
@@ -14,6 +14,7 @@ const Modal = ({ title = 'Modal', text, closeButton = true, isOpen = false, acti
 
     return (
         <>
+            <Button className={modalButton.className} text={modalButton.text} onClick={toggleModal} />
             {toggle &&
                 <div className="modal show" tabIndex="-1" style={{ display: 'block' }}>
                     <div className="modal-overlay" onClick={toggleModal}></div>
