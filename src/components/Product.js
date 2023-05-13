@@ -67,8 +67,6 @@ const Product = (props) => {
                 cart = [...cart, id];
             }
 
-            alert('Product #' + id + ' added to card')
-
         } else {
 
             if (cart) {

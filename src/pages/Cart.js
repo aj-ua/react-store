@@ -6,7 +6,8 @@ import AddContacts from '../components/AddContacts'
 import { handleCheckout } from '../actions'
 
 const Cart = ({ products, cart, contacts }) => {
-    const hasProducts = products.length > 0
+    const productsCart = products.filter(product => cart.includes(product.id))
+    const hasProducts = productsCart.length > 0
 
     const doCheckout = (e) => {
         e.preventDefault()
@@ -16,24 +17,28 @@ const Cart = ({ products, cart, contacts }) => {
     return (
         <>
             <h1>Cart</h1>
-            <AddContacts />
-            <hr className="my-5" />
-            {!hasProducts && (
-                <div className="alert alert-info fs-5 my-3">Please add products to cart!</div>
-            )}
-            <div className='row'>
-                {products.map(product => {
-                    return (
-                        cart.includes(product.id) ?
-                            (<div className="col-md-6 col-lg-4 col-xl-3 mb-4" key={product.id}>
-                                <Product product={product} />
-                            </div>) : null
-                    )
-                })}
-            </div>
-            <hr className="my-4" />
-            {hasProducts && <button type="button" className="btn btn-success btn-lg py-3 fs-4 w-100" onClick={doCheckout}>Checkout</button>}
+            {hasProducts ? (
 
+                <>
+                    <AddContacts />
+                    <hr className="my-5" />
+                    <div className='row'>
+                        {productsCart.map(product => {
+                            return <div className="col-md-6 col-lg-4 col-xl-3 mb-4" key={product.id}>
+                                <Product product={product} />
+                            </div>
+                        })}
+                    </div>
+
+                    <hr className="my-4" />
+                    <button type="button" className="btn btn-success btn-lg py-3 fs-4 w-100" onClick={doCheckout}>Checkout</button>
+                </>
+
+            ) : (
+                <div className="my-5">
+                    <div className="alert alert-info fs-5 my-3">Please add products to cart!</div>
+                </div>
+            )}
         </>
     )
 }
