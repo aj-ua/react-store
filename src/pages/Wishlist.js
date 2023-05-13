@@ -17,13 +17,10 @@ const Wishlist = ({ products, wishlist }) => {
                         <div className="alert alert-info fs-5 my-3">Please add products to cart!</div>
                     </div>
                     <div className='row'>
-                        {products.map(product => {
-                            return (
-                                wishlist.includes(product.id) ?
-                                    (<div className='col-md-6 col-lg-4 col-xl-3 mb-4' key={product.id}>
-                                        <Product product={product} />
-                                    </div>) : null
-                            )
+                        {productsWishlist.map(product => {
+                            return <div className='col-md-6 col-lg-4 col-xl-3 mb-4' key={product.id}>
+                                <Product product={product} />
+                            </div>
                         })}
                     </div>
                 </>
