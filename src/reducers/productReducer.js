@@ -9,7 +9,7 @@ const initialState = {
     order: {}
 }
 
-export default function (state = initialState, action) {
+export default function productReducers(state = initialState, action) {
     switch (action.type) {
         case GET_DATA:
             console.log('reducer GET_DATA');

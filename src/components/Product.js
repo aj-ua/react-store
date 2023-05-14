@@ -4,10 +4,10 @@ import Button from './Button'
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { handleCart, handleWishlist } from '../actions'
+import { handleCart, handleWishlist, removeOrder } from '../actions'
 
 const Product = (props) => {
-    let { wishlist, handleWishlist, cart, handleCart } = props;
+    let { wishlist, handleWishlist, cart, handleCart, removeOrder } = props;
     const { id, title, price, description, image, inWishlist, inCart } = props.product
 
     const [addedWishlist, setAddedWishlist] = useState(false)
@@ -77,6 +77,7 @@ const Product = (props) => {
 
         }
 
+        removeOrder()
         handleCart(cart)
     }
 
@@ -125,4 +126,4 @@ const mapStateToProps = (state) => ({
     wishlist: state.product.wishlist
 })
 
-export default connect(mapStateToProps, { handleCart, handleWishlist })(Product)
+export default connect(mapStateToProps, { handleCart, handleWishlist, removeOrder })(Product)

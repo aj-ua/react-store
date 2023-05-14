@@ -10,9 +10,15 @@ const Cart = ({ products, cart, contacts, order, handleCheckout, removeOrder }) 
     const productsCart = products.filter(product => cart.includes(product.id))
     const hasProducts = productsCart.length > 0
     const hasContacts = contacts.hasOwnProperty('name')
+
+    let showOrder = false
     const hasOrder = order.hasOwnProperty('cart') && order.hasOwnProperty('contacts')
     const orderContacts = hasOrder ? order.contacts : null
     const productsOrder = hasOrder ? order.cart : null
+    const productsOrderFull = hasOrder ? products.filter(product => productsOrder.includes(product.id)) : null
+
+    const total = hasOrder ? productsOrderFull.reduce((sum, i) => (sum + i.price), 0).toFixed(2) : null;
+    console.log('total', total);
 
     const doCheckout = (e) => {
         e.preventDefault()
@@ -22,6 +28,7 @@ const Cart = ({ products, cart, contacts, order, handleCheckout, removeOrder }) 
 
     const handleOrder = () => {
         removeOrder()
+        showOrder = true
     }
 
     return (
@@ -52,21 +59,27 @@ const Cart = ({ products, cart, contacts, order, handleCheckout, removeOrder }) 
             )
             }
 
-            {hasOrder && <div className="card order text-start" style={{ maxWidth: "650px" }}>
+            {hasOrder && <div className="card order text-start">
                 <div className="card-header d-flex justify-content-between align-items-center">
-                    <h3>Order Details:</h3>
+                    <h3 className='mb-0'>Order Details:</h3>
                     <button className="btn-close order-close" onClick={handleOrder}></button>
                 </div>
                 <div className="card-body">
-                    <h5>Contact Information:</h5>
-                    <div>Name: <strong>{orderContacts.name}</strong></div>
-                    <div>Email: <strong>{orderContacts.email}</strong></div>
-                    <div>Phone: <strong>{orderContacts.phone}</strong></div>
-
-                    <h5 className='mt-4'>Products:</h5>
-                    {products.filter(product => productsOrder.includes(product.id)).map(product => (
-                        <p key={product.id}><img src={product.image} width='30' alt='' style={{ aspectRatio: "1 / 1", marginRight: 10 }} /><strong>{product.title}</strong> [#{product.id}] - ${product.price}</p>
-                    ))}
+                    <div className="row">
+                        <div className="col-lg-6">
+                            <h5 className='text-primary mb-3'>Contact Information:</h5>
+                            <p>Name: <strong>{orderContacts.name}</strong></p>
+                            <p>Email: <strong>{orderContacts.email}</strong></p>
+                            <p>Phone: <strong>{orderContacts.phone}</strong></p>
+                        </div>
+                        <div className="col-lg-6">
+                            <h5 className='text-primary mb-3'>Products:</h5>
+                            {productsOrderFull.map(product => (
+                                <p key={product.id}><img src={product.image} width='30' alt='' style={{ aspectRatio: "1 / 1", marginRight: 10 }} /><strong>{product.title}</strong> [#{product.id}] - ${product.price}</p>
+                            ))}
+                            <h5 className='text-primary text-end'>Total: <strong>${total}</strong></h5>
+                        </div>
+                    </div>
                 </div>
             </div >}
         </>
@@ -84,7 +97,7 @@ const mapStateToProps = (state) => ({
     products: state.product.products,
     cart: state.product.cart,
     contacts: state.product.contacts,
-    order: state.product.order
+    order: state.product.order,
 })
 
 export default connect(mapStateToProps, { handleCheckout, removeOrder })(Cart)

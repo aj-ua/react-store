@@ -15,7 +15,7 @@ const initialState = {
     isModalOpen: false
 }
 
-export default function (state = initialState, action) {
+export default function modalReducers(state = initialState, action) {
     switch (action.type) {
         case HANDLE_MODAL:
             console.log('reducer HANDLE_MODAL');
