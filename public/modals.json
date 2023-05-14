@@ -1,0 +1,12 @@
+[
+  {
+    "id": "addProduct",
+    "title": "Add Product",
+    "text": "Add product to cart?",
+    "closeButton": true,
+    "actionBtn": {
+      "className": "btn-success",
+      "text": "Add to cart"
+    }
+  }
+]

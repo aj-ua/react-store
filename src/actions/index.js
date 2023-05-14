@@ -1,10 +1,12 @@
 // import { GET_DATA, HANDLE_CART, HANDLE_WISHLIST, ADD_CONTACTS, HANDLE_CHECKOUT } from './types'
 import * as types from './types'
+import store from '../store'
 
 export const getData = () => async dispatch => {
     let wishlist = []
     let cart = []
     let products = []
+    let modals = []
 
     if (localStorage.getItem('wishlist')) {
         wishlist = await JSON.parse(localStorage.getItem('wishlist'))
@@ -36,24 +38,39 @@ export const getData = () => async dispatch => {
 
             return productsUpdated
 
-        });
+        })
+
+    modals = await fetch('modals.json' // from /public folder
+        , {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    )
+        .then((response) => response.json())
 
     dispatch({
         type: types.GET_DATA,
         payload: {
             products: products,
             cart: cart,
-            wishlist: wishlist
+            wishlist: wishlist,
+            modals: modals,
         }
     })
 }
 
-export const handleCart = (cart) => {
+export const handleCart = (cart) => dispatch => {
     localStorage.setItem('cart', JSON.stringify(cart))
-    return {
+
+    dispatch({
         type: types.HANDLE_CART,
         payload: cart
-    }
+    })
+
+    dispatch({
+        type: types.TOGGLE_MODAL,
+    })
 }
 
 export const handleWishlist = (wishlist) => {
@@ -61,6 +78,26 @@ export const handleWishlist = (wishlist) => {
     return {
         type: types.HANDLE_WISHLIST,
         payload: wishlist
+    }
+}
+
+export const handleModal = (modal, action, isOpen) => {
+    console.log('action handleModal');
+    const modals = store.getState().product.modals
+    const thisModal = modals.filter(item => item.id === modal)
+    return {
+        type: types.HANDLE_MODAL,
+        payload: {
+            ...thisModal[0],
+            action: action
+        }
+    }
+}
+
+export const toggleModal = () => {
+    console.log('action TOGGLE_MODAL');
+    return {
+        type: types.TOGGLE_MODAL,
     }
 }
 

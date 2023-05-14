@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 const Header = ({ wishlist, cart }) => {
     return (
-        <header className="navbar navbar-dark navbar-expand-lg bg-dark text-white">
+        <header className="navbar navbar-dark navbar-expand-md bg-dark text-white">
             <div className="container d-flex justify-content-between">
                 <h1>Store</h1>
                 <ul className="navbar-nav gap-2 fs-5">

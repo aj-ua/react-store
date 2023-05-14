@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Modal from './Modal'
+import Button from './Button'
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -121,7 +122,8 @@ const Product = (props) => {
                         <a href="/#" className="btn btn-lg btn-secondary disabled"><i className="bi bi-check"></i> In cart</a>
                     ) : (
                         <>
-                            <Modal
+                            <Button className="btn-success btn-lg" text="Add to cart" modal="addProduct" onClick={(e) => updateCart(e)} />
+                            {/* <Modal
                                 title={'Add Product #' + id}
                                 modalButton={{
                                     className: "btn-success btn-lg",
@@ -134,7 +136,7 @@ const Product = (props) => {
                                     { id: 2, className: "btn-danger", text: "No" },
                                 ]}>
                                 Add <strong>{title}</strong> to cart?
-                            </Modal>
+                            </Modal> */}
                         </>
                     )
                 )

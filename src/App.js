@@ -7,6 +7,7 @@ import { getData } from './actions'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Products from './components/Products'
+import Modal from './components/Modal'
 import Wishlist from './pages/Wishlist'
 import Cart from './pages/Cart'
 import NotFound from './pages/NotFound'
@@ -46,6 +47,7 @@ function App() {
                         </Routes>
                     </main>
                     <Footer />
+                    <Modal />
                 </div>
             </BrowserRouter>
         </Provider>
