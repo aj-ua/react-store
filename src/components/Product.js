@@ -124,8 +124,8 @@ const Product = ({ product, wishlist, cart, handleWishlist, handleCart }) => {
                                     className: "btn-success btn-lg",
                                     text: "Add to cart",
                                 }}
-                                closeButton={false}
                                 isOpen={isOpen}
+                                closeButton={false}
                                 actions={[
                                     { id: 1, className: "btn-success", text: "Yes add", onClick: (e) => updateCart(e) },
                                     { id: 2, className: "btn-danger", text: "No" },
