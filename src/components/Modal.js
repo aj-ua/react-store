@@ -26,7 +26,7 @@ const Modal = (props) => {
                         <div className="modal-content">
                             <div className="modal-header bg-primary text-white">
                                 <h3 className="modal-title fs-5">{title}</h3>
-                                {closeButton ? <button type="button" className="btn-close" onClick={updateModal}></button> : null}
+                                {closeButton ? <button type="button" className="btn-close text-white" onClick={updateModal}></button> : null}
                             </div>
                             <div className="modal-body text-left">{text}</div>
                             <div className="modal-footer">

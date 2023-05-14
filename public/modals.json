@@ -8,5 +8,15 @@
       "className": "btn-success",
       "text": "Add to cart"
     }
+  },
+  {
+    "id": "removeProduct",
+    "title": "Remove Product",
+    "text": "Remove product from cart?",
+    "closeButton": true,
+    "actionBtn": {
+      "className": "btn-success",
+      "text": "Remove"
+    }
   }
 ]
