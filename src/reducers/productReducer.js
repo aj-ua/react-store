@@ -1,4 +1,4 @@
-import { GET_DATA, HANDLE_CART, HANDLE_WISHLIST, HANDLE_MODAL, TOGGLE_MODAL, ADD_CONTACTS, HANDLE_CHECKOUT } from '../actions/types'
+import { GET_DATA, HANDLE_CART, HANDLE_WISHLIST, ADD_CONTACTS, HANDLE_CHECKOUT } from '../actions/types'
 
 const initialState = {
     products: [],
@@ -15,7 +15,7 @@ const initialState = {
             "className": "btn-success",
             "text": "Yes"
         },
-        action: () => console.log('modal none'),
+        action: () => { },
     },
     isModalOpen: false
 }
@@ -46,21 +46,6 @@ export default function (state = initialState, action) {
                 wishlist: action.payload
             }
 
-        case HANDLE_MODAL:
-            console.log('reducer HANDLE_MODAL');
-            console.log('action.payload', action.payload);
-            return {
-                ...state,
-                activeModal: action.payload
-            }
-
-        case TOGGLE_MODAL:
-            console.log('reducer TOGGLE_MODAL');
-            return {
-                ...state,
-                isModalOpen: !state.isModalOpen
-            }
-
         case ADD_CONTACTS:
             console.log('reducer ADD_CONTACTS');
             return {
@@ -71,7 +56,9 @@ export default function (state = initialState, action) {
         case HANDLE_CHECKOUT:
             console.log('reducer HANDLE_CHECKOUT');
             return {
-                ...state
+                ...state,
+                cart: [],
+                contacts: {}
             }
 
         default:

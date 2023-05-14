@@ -5,13 +5,15 @@ import Product from '../components/Product'
 import AddContacts from '../components/AddContacts'
 import { handleCheckout } from '../actions'
 
-const Cart = ({ products, cart, contacts }) => {
+const Cart = ({ products, cart, contacts, handleCheckout }) => {
     const productsCart = products.filter(product => cart.includes(product.id))
     const hasProducts = productsCart.length > 0
+    const hasContacts = contacts.hasOwnProperty('name')
 
     const doCheckout = (e) => {
         e.preventDefault()
-        handleCheckout({ cart: cart, contacts: contacts })
+        console.log('cart: ', cart, 'contacts: ', contacts);
+        handleCheckout(cart, contacts)
     }
 
     return (
@@ -31,12 +33,13 @@ const Cart = ({ products, cart, contacts }) => {
                     </div>
 
                     <hr className="my-4" />
-                    <button type="button" className="btn btn-success btn-lg py-3 fs-4 w-100" onClick={doCheckout}>Checkout</button>
+                    {hasContacts ? <button type="button" className="btn btn-success btn-lg py-3 fs-4 w-100" onClick={doCheckout}>Checkout</button> : <div className="alert alert-info fs-5 my-3">Add your contacts before checkout!</div>}
+
                 </>
 
             ) : (
                 <div className="my-5">
-                    <div className="alert alert-info fs-5 my-3">Please add products to cart!</div>
+                    <div className="alert alert-info fs-5 my-3">Add products to cart!</div>
                 </div>
             )}
         </>
@@ -55,4 +58,4 @@ const mapStateToProps = (state) => ({
     contacts: state.product.contacts
 })
 
-export default connect(mapStateToProps, null)(Cart)
+export default connect(mapStateToProps, { handleCheckout })(Cart)

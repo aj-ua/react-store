@@ -109,11 +109,11 @@ export const addContacts = (contacts) => {
     }
 }
 
-export const handleCheckout = (data) => {
-    console.log('action HANDLE_CHECKOUT', data);
+export const handleCheckout = (cart, contacts) => {
+    console.log('action HANDLE_CHECKOUT', cart, contacts);
 
     return {
         type: types.HANDLE_CHECKOUT,
-        payload: data
+        payload: { cart: cart, contacts: contacts }
     }
 }

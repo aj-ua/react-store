@@ -13,15 +13,17 @@ const signInSchema = Yup.object().shape({
         .min(4, "Phone is too short - should be 4 chars min")
 })
 
-const AddContacts = () => {
+const AddContacts = ({ contacts, addContacts }) => {
+    const hasContacts = contacts.hasOwnProperty('name')
+
     return (
         <Formik
             initialValues={{ name: "", email: "", phone: "" }}
             validationSchema={signInSchema}
             onSubmit={(values, actions) => {
-                console.log(values)
                 addContacts(values)
-                actions.resetForm()
+                // actions.resetForm()
+                document.querySelector(".footer").scrollIntoView();
             }}
         >
             {(formik) => {
@@ -29,7 +31,7 @@ const AddContacts = () => {
                 return (
                     <>
                         <div className="card text-start">
-                            <div className="card-header fs-4">Add Contact Info</div>
+                            <div className="card-header fs-4">{hasContacts ? 'Your' : 'Add'} Contact Info</div>
                             <div className="card-body">
                                 <Form>
                                     <div className="form-group mb-2">
@@ -81,4 +83,4 @@ const AddContacts = () => {
 const mapStateToProps = (state) => ({
     contacts: state.product.contacts
 })
-export default connect(mapStateToProps, null)(AddContacts)
+export default connect(mapStateToProps, { addContacts })(AddContacts)

@@ -13,9 +13,6 @@ const Wishlist = ({ products, wishlist }) => {
             {hasProducts ? (
 
                 <>
-                    <div className="my-5">
-                        <div className="alert alert-info fs-5 my-3">Please add products to cart!</div>
-                    </div>
                     <div className='row'>
                         {productsWishlist.map(product => {
                             return <div className='col-md-6 col-lg-4 col-xl-3 mb-4' key={product.id}>
@@ -28,7 +25,7 @@ const Wishlist = ({ products, wishlist }) => {
             ) : (
 
                 <div className="my-5">
-                    <div className="alert alert-info fs-5 my-3">Please add products to wishlist!</div>
+                    <div className="alert alert-info fs-5 my-3">Add products to wishlist!</div>
                 </div>
 
             )}
