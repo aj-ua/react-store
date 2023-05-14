@@ -59,8 +59,8 @@ Modal.defaultProps = {
 }
 
 const mapStateToProps = (state) => ({
-    activeModal: state.product.activeModal,
-    isModalOpen: state.product.isModalOpen,
+    activeModal: state.modal.activeModal,
+    isModalOpen: state.modal.isModalOpen,
 })
 
 export default connect(mapStateToProps, { toggleModal })(Modal)

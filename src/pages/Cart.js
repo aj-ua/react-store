@@ -4,15 +4,18 @@ import { connect } from 'react-redux'
 import Product from '../components/Product'
 import AddContacts from '../components/AddContacts'
 import { handleCheckout } from '../actions'
+import classnames from 'classnames'
 
 const Cart = ({ products, cart, contacts, handleCheckout }) => {
     const productsCart = products.filter(product => cart.includes(product.id))
     const hasProducts = productsCart.length > 0
     const hasContacts = contacts.hasOwnProperty('name')
+    let order = null
 
     const doCheckout = (e) => {
         e.preventDefault()
         console.log('cart: ', cart, 'contacts: ', contacts);
+        order = { cart: cart, contacts: contacts }
         handleCheckout(cart, contacts)
     }
 
@@ -33,15 +36,16 @@ const Cart = ({ products, cart, contacts, handleCheckout }) => {
                     </div>
 
                     <hr className="my-4" />
-                    {hasContacts ? <button type="button" className="btn btn-success btn-lg py-3 fs-4 w-100" onClick={doCheckout}>Checkout</button> : <div className="alert alert-info fs-5 my-3">Add your contacts before checkout!</div>}
-
+                    {hasContacts ? '' : <div className="alert alert-info fs-5 my-3">Add your contacts before checkout!</div>}
+                    <button type="button" className={classnames("btn btn-success btn-lg py-3 fs-4 w-100", { 'disabled': !hasContacts })} onClick={doCheckout}>Checkout</button>
                 </>
 
             ) : (
-                <div className="my-5">
+                <div div className="my-5">
                     <div className="alert alert-info fs-5 my-3">Add products to cart!</div>
-                </div>
-            )}
+                </div >
+            )
+            }
         </>
     )
 }

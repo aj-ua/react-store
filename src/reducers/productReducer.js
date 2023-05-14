@@ -5,19 +5,7 @@ const initialState = {
     cart: [],
     wishlist: [],
     contacts: {},
-    modals: [],
-    activeModal: {
-        id: "none",
-        title: "Modal",
-        text: "...",
-        closeButton: true,
-        actionBtn: {
-            "className": "btn-success",
-            "text": "Yes"
-        },
-        action: () => { },
-    },
-    isModalOpen: false
+    modals: []
 }
 
 export default function (state = initialState, action) {
