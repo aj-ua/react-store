@@ -1,11 +1,12 @@
-import { GET_DATA, HANDLE_CART, HANDLE_WISHLIST, ADD_CONTACTS, HANDLE_CHECKOUT } from '../actions/types'
+import { GET_DATA, HANDLE_CART, HANDLE_WISHLIST, ADD_CONTACTS, HANDLE_CHECKOUT, REMOVE_ORDER } from '../actions/types'
 
 const initialState = {
     products: [],
     cart: [],
     wishlist: [],
     contacts: {},
-    modals: []
+    modals: [],
+    order: {}
 }
 
 export default function (state = initialState, action) {
@@ -43,10 +44,19 @@ export default function (state = initialState, action) {
 
         case HANDLE_CHECKOUT:
             console.log('reducer HANDLE_CHECKOUT');
+            console.log('action.payload.order', action.payload.order);
             return {
                 ...state,
-                cart: [],
-                contacts: {}
+                cart: action.payload.cart,
+                contacts: action.payload.contacts,
+                order: action.payload.order
+            }
+
+        case REMOVE_ORDER:
+            console.log('reducer REMOVE_ORDER');
+            return {
+                ...state,
+                order: {}
             }
 
         default:

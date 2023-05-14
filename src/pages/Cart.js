@@ -3,20 +3,25 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Product from '../components/Product'
 import AddContacts from '../components/AddContacts'
-import { handleCheckout } from '../actions'
+import { handleCheckout, removeOrder } from '../actions'
 import classnames from 'classnames'
 
-const Cart = ({ products, cart, contacts, handleCheckout }) => {
+const Cart = ({ products, cart, contacts, order, handleCheckout, removeOrder }) => {
     const productsCart = products.filter(product => cart.includes(product.id))
     const hasProducts = productsCart.length > 0
     const hasContacts = contacts.hasOwnProperty('name')
-    let order = null
+    const hasOrder = order.hasOwnProperty('cart') && order.hasOwnProperty('contacts')
+    const orderContacts = hasOrder ? order.contacts : null
+    const productsOrder = hasOrder ? order.cart : null
 
     const doCheckout = (e) => {
         e.preventDefault()
         console.log('cart: ', cart, 'contacts: ', contacts);
-        order = { cart: cart, contacts: contacts }
         handleCheckout(cart, contacts)
+    }
+
+    const handleOrder = () => {
+        removeOrder()
     }
 
     return (
@@ -41,11 +46,29 @@ const Cart = ({ products, cart, contacts, handleCheckout }) => {
                 </>
 
             ) : (
-                <div div className="my-5">
+                <div className="my-5">
                     <div className="alert alert-info fs-5 my-3">Add products to cart!</div>
-                </div >
+                </div>
             )
             }
+
+            {hasOrder && <div className="card order text-start" style={{ maxWidth: "650px" }}>
+                <div className="card-header d-flex justify-content-between align-items-center">
+                    <h3>Order Details:</h3>
+                    <button className="btn-close order-close" onClick={handleOrder}></button>
+                </div>
+                <div className="card-body">
+                    <h5>Contact Information:</h5>
+                    <div>Name: <strong>{orderContacts.name}</strong></div>
+                    <div>Email: <strong>{orderContacts.email}</strong></div>
+                    <div>Phone: <strong>{orderContacts.phone}</strong></div>
+
+                    <h5 className='mt-4'>Products:</h5>
+                    {products.filter(product => productsOrder.includes(product.id)).map(product => (
+                        <p key={product.id}><img src={product.image} width='30' alt='' style={{ aspectRatio: "1 / 1", marginRight: 10 }} /><strong>{product.title}</strong> [#{product.id}] - ${product.price}</p>
+                    ))}
+                </div>
+            </div >}
         </>
     )
 }
@@ -53,13 +76,15 @@ const Cart = ({ products, cart, contacts, handleCheckout }) => {
 Cart.propTypes = {
     products: PropTypes.array.isRequired,
     cart: PropTypes.array.isRequired,
-    contacts: PropTypes.object.isRequired
+    contacts: PropTypes.object.isRequired,
+    order: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
     products: state.product.products,
     cart: state.product.cart,
-    contacts: state.product.contacts
+    contacts: state.product.contacts,
+    order: state.product.order
 })
 
-export default connect(mapStateToProps, { handleCheckout })(Cart)
+export default connect(mapStateToProps, { handleCheckout, removeOrder })(Cart)

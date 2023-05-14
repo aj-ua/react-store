@@ -1,4 +1,3 @@
-// import { GET_DATA, HANDLE_CART, HANDLE_WISHLIST, ADD_CONTACTS, HANDLE_CHECKOUT } from './types'
 import * as types from './types'
 import store from '../store'
 
@@ -111,9 +110,22 @@ export const addContacts = (contacts) => {
 
 export const handleCheckout = (cart, contacts) => {
     console.log('action HANDLE_CHECKOUT', cart, contacts);
+    const order = { cart: cart, contacts: contacts }
+    localStorage.removeItem('cart')
 
     return {
         type: types.HANDLE_CHECKOUT,
-        payload: { cart: cart, contacts: contacts }
+        payload: {
+            cart: [],
+            contacts: {},
+            order: order
+        }
+    }
+}
+
+export const removeOrder = () => {
+    console.log('REMOVE_ORDER');
+    return {
+        type: types.REMOVE_ORDER,
     }
 }
