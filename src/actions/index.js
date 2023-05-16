@@ -23,21 +23,6 @@ export const getData = () => async dispatch => {
         }
     )
         .then((response) => response.json())
-        .then((data) => {
-            let productsUpdated = []
-
-            if (data.length > 0) {
-                productsUpdated = data.map((product) => {
-                    product.inWishlist = wishlist.includes(product.id)
-                    product.inCart = cart.includes(product.id)
-
-                    return product
-                })
-            }
-
-            return productsUpdated
-
-        })
 
     modals = await fetch('modals.json' // from /public folder
         , {

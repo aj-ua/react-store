@@ -6,9 +6,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { handleCart, handleWishlist, removeOrder } from '../actions'
 
-const Product = (props) => {
-    let { wishlist, handleWishlist, cart, handleCart, removeOrder } = props;
-    const { id, title, price, description, image, inWishlist, inCart } = props.product
+const Product = ({ product, wishlist, handleWishlist, cart, handleCart, removeOrder }) => {
+    const { id, title, price, description, image } = product
 
     const [addedWishlist, setAddedWishlist] = useState(false)
     const [addedCart, setAddedCart] = useState(false)
@@ -17,14 +16,14 @@ const Product = (props) => {
     const isPageCart = pageSlug.includes('cart')
 
     useEffect(() => {
-        if (inWishlist) {
-            setAddedWishlist(inWishlist)
+        if (wishlist.includes(product.id)) {
+            setAddedWishlist(true)
         }
 
-        if (inCart) {
-            setAddedCart(inCart)
+        if (cart.includes(product.id)) {
+            setAddedCart(true)
         }
-    }, [inWishlist, inCart])
+    }, [wishlist, cart, product.id])
 
     const updateWishlist = (e) => {
         e.preventDefault()

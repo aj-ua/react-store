@@ -3,8 +3,7 @@ import Product from './Product'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-const Products = (props) => {
-    const { products } = props
+const Products = ({ products }) => {
     return (
         <main>
             <>

@@ -34,7 +34,6 @@ Header.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    products: state.product.products,
     cart: state.product.cart,
     wishlist: state.product.wishlist
 })
