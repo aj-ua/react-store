@@ -16,14 +16,14 @@ const Product = ({ product, wishlist, handleWishlist, cart, handleCart, removeOr
     const isPageCart = pageSlug.includes('cart')
 
     useEffect(() => {
-        if (wishlist.includes(product.id)) {
+        if (wishlist.includes(id)) {
             setAddedWishlist(true)
         }
 
-        if (cart.includes(product.id)) {
+        if (cart.includes(id)) {
             setAddedCart(true)
         }
-    }, [wishlist, cart, product.id])
+    }, [wishlist, cart, id])
 
     const updateWishlist = (e) => {
         e.preventDefault()

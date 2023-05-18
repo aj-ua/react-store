@@ -4,15 +4,11 @@ import PropTypes from 'prop-types'
 import { toggleModal } from '../actions'
 import Button from './Button'
 
-const Modal = (props) => {
-    const { title, text, closeButton, actionBtn, action } = props.activeModal
-    const isModalOpen = props.isModalOpen
-    const { toggleModal } = props
+const Modal = ({ activeModal, isModalOpen, toggleModal }) => {
+    const { title, text, closeButton, actionBtn, action } = activeModal
 
     const updateModal = () => {
-        console.log('isModalOpen1', isModalOpen);
         toggleModal()
-        console.log('isModalOpen2', isModalOpen);
     }
 
     const clickFunction = action ? action : updateModal
@@ -26,7 +22,6 @@ const Modal = (props) => {
                         <div className="modal-content">
                             <div className="modal-header bg-primary text-white">
                                 <h3 className="modal-title fs-5">{title}</h3>
-                                {closeButton ? <button type="button" className="btn-close text-white" onClick={updateModal}></button> : null}
                             </div>
                             <div className="modal-body text-left">{text}</div>
                             <div className="modal-footer">
@@ -37,8 +32,6 @@ const Modal = (props) => {
                     </div>
                 </div >
             }
-
-
         </>
     )
 }
