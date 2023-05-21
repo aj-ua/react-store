@@ -81,3 +81,30 @@
     left: 0;
   }
 }
+
+/**
+* Product Card
+*/
+.card--table {
+  img {
+    width: 150px;
+  }
+
+  .card-title {
+    width: 30%;
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+  .card-text {
+    margin-bottom: 0;
+  }
+
+  h3 {
+    min-width: 120px;
+  }
+
+  .btn {
+    flex-shrink: 0;
+  }
+}

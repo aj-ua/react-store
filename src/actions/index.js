@@ -65,7 +65,7 @@ export const handleWishlist = (wishlist) => {
     }
 }
 
-export const handleModal = (modal, action, isOpen) => {
+export const handleModal = (modal, action) => {
     console.log('action handleModal');
     const modals = store.getState().product.modals
     const thisModal = modals.filter(item => item.id === modal)

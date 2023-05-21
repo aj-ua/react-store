@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import Button from './Button'
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { handleCart, handleWishlist, removeOrder } from '../actions'
+import { LayoutContext } from '../context/LayoutContext';
 
 const Product = ({ product, wishlist, handleWishlist, cart, handleCart, removeOrder }) => {
     const { id, title, price, description, image } = product
+
+    const isGrid = useContext(LayoutContext)
 
     const [addedWishlist, setAddedWishlist] = useState(false)
     const [addedCart, setAddedCart] = useState(false)
@@ -81,17 +84,17 @@ const Product = ({ product, wishlist, handleWishlist, cart, handleCart, removeOr
     }
 
     return (
-        <article className="card h-100" data-id={id}>
-            <div className='position-relative p-5'>
+        <article className={isGrid ? 'card h-100' : 'card flex-md-row card--table'} data-id={id}>
+            <div className={isGrid ? 'position-relative p-5' : 'position-relative p-2'}>
                 <img src={image} className="card-img-top" alt="" style={{ aspectRatio: "1 / 1" }} />
                 <a href="/#" className='position-absolute text-danger fs-1 p-3 z-10 top-0 end-0' onClick={updateWishlist}>
                     {addedWishlist ? <i className="bi bi-heart-fill"></i> : <i className="bi bi-heart"></i>}
                 </a>
             </div>
-            <div className="card-body d-flex flex-column">
+            <div className={isGrid ? 'card-body d-flex flex-column' : 'card-body d-flex flex-column flex-md-row gap-2 align-items-center'}>
                 <h4 className="card-title">{'(#' + id + ') ' + title}</h4>
                 {isPageCart ? null : <p className="card-text" style={{ height: '100px', overflow: 'hidden' }}>{description}</p>}
-                <h3 className='mt-auto mb-3'><strong>${price}</strong></h3>
+                <h3 className={isGrid ? 'mt-auto mb-3' : ''}><strong>${price}</strong></h3>
 
                 {isPageCart ? (
                     <Button className="btn-primary btn-lg" text="Remove from cart" modal="removeProduct" onClick={(e) => updateCart(e)} />
