@@ -14,8 +14,8 @@ const Products = ({ products }) => {
 
             <div className='text-end mb-3'>
                 <div className="btn-group">
-                    <button className={classnames('btn btn-primary', { 'active': isGrid })} onClick={() => setIsGrid(true)}><i class="bi bi-grid-3x2-gap-fill"></i> Grid</button>
-                    <button className={classnames('btn btn-primary', { 'active': !isGrid })} onClick={() => setIsGrid(false)}><i class="bi bi-table"></i> Table</button>
+                    <button className={classnames('btn btn-primary', { 'active': isGrid })} onClick={() => setIsGrid(true)}><i className="bi bi-grid-3x2-gap-fill"></i> Grid</button>
+                    <button className={classnames('btn btn-primary', { 'active': !isGrid })} onClick={() => setIsGrid(false)}><i className="bi bi-table"></i> Table</button>
                 </div>
             </div>
             <LayoutContext.Provider value={isGrid}>
