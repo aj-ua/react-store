@@ -26,54 +26,53 @@ const AddContacts = ({ contacts, addContacts }) => {
                 document.querySelector(".footer").scrollIntoView();
             }}
         >
-            {(formik) => {
-                const { errors, touched } = formik
+            {({ errors, touched }) => {
                 return (
-                    <>
-                        <div className="card text-start">
-                            <div className="card-header fs-4">{hasContacts ? 'Your' : 'Add'} Contact Info</div>
-                            <div className="card-body">
-                                <Form>
-                                    <div className="form-group mb-2">
-                                        <label>Name</label>
-                                        <Field
-                                            type="text"
-                                            name="name"
-                                            id="name"
-                                            className={classnames("form-control form-control-lg", { 'is-invalid': errors.name && touched.name })}
-                                        />
-                                        <ErrorMessage name="name" component="span" className="invalid-feedback" />
-                                    </div>
-                                    <div className="form-group mb-2">
-                                        <label>Email</label>
-                                        <Field
-                                            type="email"
-                                            name="email"
-                                            id="email"
-                                            className={classnames("form-control form-control-lg", { 'is-invalid': errors.email && touched.email })}
-                                        />
-                                        <ErrorMessage name="email" component="span" className="invalid-feedback" />
-                                    </div>
-                                    <div className="form-group mb-3">
-                                        <label>Phone</label>
-                                        <Field
-                                            type="text"
-                                            name="phone"
-                                            id="phone"
-                                            className={classnames("form-control form-control-lg", { 'is-invalid': errors.phone && touched.phone })}
-                                        />
-                                        <ErrorMessage name="phone" component="span" className="invalid-feedback" />
-                                    </div>
-                                    <button
-                                        type="submit"
-                                        className="btn btn-lg btn-primary w-100"
-                                    >
-                                        Add Contacts
-                                    </button>
-                                </Form>
-                            </div>
+                    <div className="card text-start">
+                        <div className="card-header fs-4">{hasContacts ? 'Your' : 'Add'} Contact Info</div>
+                        <div className="card-body">
+                            <Form>
+                                <div className="form-group mb-2">
+                                    <label>Name</label>
+                                    <Field
+                                        type="text"
+                                        name="name"
+                                        id="name"
+                                        className={classnames("form-control form-control-lg", { 'is-invalid': errors.name && touched.name })}
+                                    />
+                                    <ErrorMessage name="name" component="span" className="invalid-feedback" />
+                                </div>
+                                <div className="form-group mb-2">
+                                    <label>Email</label>
+                                    <Field
+                                        type="email"
+                                        name="email"
+                                        id="email"
+                                        className={classnames("form-control form-control-lg", { 'is-invalid': errors.email && touched.email })}
+                                    />
+                                    <ErrorMessage name="email" component="span" className="invalid-feedback" />
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label>Phone</label>
+                                    <Field
+                                        type="text"
+                                        name="phone"
+                                        id="phone"
+                                        className={classnames("form-control form-control-lg", { 'is-invalid': errors.phone && touched.phone })}
+                                    />
+                                    <ErrorMessage name="phone" component="span" className="invalid-feedback" />
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="btn btn-lg btn-primary w-100"
+                                >
+                                    Add Contacts
+                                </button>
+                                {hasContacts ? <div className="alert alert-success my-3">Contacts successfully saved</div> : ''}
+
+                            </Form>
                         </div>
-                    </>
+                    </div>
                 )
             }}
         </Formik>
